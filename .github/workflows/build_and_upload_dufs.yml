@@ -34,14 +34,15 @@ jobs:
 #          name: "ssrust"
 #          allowUpdates: true
 #          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      - name: Debug
-        run: ls -R target/x86_64-unknown-freebsd/release/
+
+#      - name: Debug
+#        run: ls -R target/x86_64-unknown-freebsd/release/
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
         with:
           name: Binaries
-          path: target/x86_64-unknown-freebsd/release/*
+          path: target/x86_64-unknown-freebsd/release/dufs
     
           # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
           retention-days: 1
