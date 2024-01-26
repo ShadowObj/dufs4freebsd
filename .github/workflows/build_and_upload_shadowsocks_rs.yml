@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
 
-name: build_and_upload_dufs
+name: build_and_upload_shadowsocks_rs
 
 jobs:
   build-and-release:
