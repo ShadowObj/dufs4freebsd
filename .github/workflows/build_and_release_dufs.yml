@@ -1,0 +1,38 @@
+on:
+  workflow_dispatch:
+
+name: build-and-release
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: sigoden/dufs
+
+      - name: Install Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: "x86_64-unknown-freebsd"
+          override: true
+
+      - name: Build Server
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target=x86_64-unknown-freebsd
+      
+#      - name: Release binaries
+#        uses: ncipollo/release-action@v1
+#        with:
+#          artifacts: "target/x86_64-unknown-freebsd/release/*"
+#          tag: "0.8.6"
+#          name: "ssrust"
+#          allowUpdates: true
+#          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: Upload Binaries
+        uses: 
