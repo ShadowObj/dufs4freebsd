@@ -1,0 +1,52 @@
+on:
+  workflow_dispatch:
+
+name: build_and_upload_dufs
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: sigoden/dufs
+
+      - name: Install Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: "x86_64-unknown-freebsd"
+          override: true
+
+      - name: Build Server
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target=x86_64-unknown-freebsd
+      
+#      - name: Release binaries
+#        uses: ncipollo/release-action@v1
+#        with:
+#          artifacts: "target/x86_64-unknown-freebsd/release/*"
+#          tag: "0.8.6"
+#          name: "ssrust"
+#          allowUpdates: true
+#          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: Binaries
+          path: target/x86_64-unknown-freebsd/release/*
+    
+          # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
+          retention-days: 1
+    
+          # The level of compression for Zlib to be applied to the artifact archive. The value can range from 0 to 9: - 0: No compression - 1: Best speed - 6: Default compression (same as GNU Gzip) - 9: Best compression Higher levels will result in better compression, but will take longer to complete. For large files that are not easily compressed, a value of 0 is recommended for significantly faster uploads.
+          compression-level: 0
+    
+          # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
+          overwrite: true
+          
