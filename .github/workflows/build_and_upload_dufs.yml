@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
 
-name: build-and-release
+name: build_and_upload_dufs
 
 jobs:
   build-and-release:
