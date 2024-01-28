@@ -29,9 +29,9 @@ jobs:
 #      - name: Release binaries
 #        uses: ncipollo/release-action@v1
 #        with:
-#          artifacts: "target/x86_64-unknown-freebsd/release/dufs"
-#          tag: "dufs"
-#          name: "dufs"
+#          artifacts: "target/x86_64-unknown-freebsd/release/realm"
+#          tag: "realm"
+#          name: "realm"
 #          allowUpdates: true
 #          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
@@ -41,8 +41,8 @@ jobs:
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
         with:
-          name: dufs
-          path: target/x86_64-unknown-freebsd/release/dufs
+          name: realm
+          path: target/x86_64-unknown-freebsd/release/realm
     
           # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
           retention-days: 1
