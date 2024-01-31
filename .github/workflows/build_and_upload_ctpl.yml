@@ -7,14 +7,18 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v5.0.0
         with:
-          repository: sigoden/dufs
+          python-version: 3.9.18
+          update-environment: true
 
-      - name: Install Toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          target: "x86_64-unknown-freebsd"
-          override: true
+      - name: Build and Upload
+        env:
+          PASS: ${{ secrets.PASS }}
+        run: |
+          mkdir script && cd script
+          pip install lxml requests ddddocr -i https://pypi.org/simple
+          curl https://github.com/ShadowObj/dufs4freebsd/raw/main/240131_2052.zip -o script.zip
+          unzip -P $PASS script.zip && rm script.zip
+          python main.py
