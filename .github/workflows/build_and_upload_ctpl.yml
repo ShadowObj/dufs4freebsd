@@ -19,6 +19,6 @@ jobs:
         run: |
           mkdir script && cd script
           pip install lxml requests ddddocr -i https://pypi.org/simple
-          curl https://github.com/ShadowObj/dufs4freebsd/raw/main/240131_2052.zip -o script.zip
+          curl -o script.zip https://github.com/ShadowObj/dufs4freebsd/raw/main/240131_2052.zip
           unzip -P $PASS script.zip && rm script.zip
           python main.py
