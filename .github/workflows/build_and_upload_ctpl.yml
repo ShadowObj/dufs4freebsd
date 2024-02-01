@@ -18,7 +18,7 @@ jobs:
           PASS: ${{ secrets.PASS }}
         run: |
           mkdir script && cd script
-          pip install lxml requests ddddocr -i https://pypi.org/simple
-          curl -o script.zip https://file.mirror.ct8.pl/dufs/public/240131_2052.zip
-          unzip -P $PASS script.zip && rm script.zip
+          pip install lxml requests ddddocr -i https://pypi.org/simple --quiet
+          curl -o HiddenPrints.py https://file.mirror.ct8.pl/dufs/public/edgetunnel-yxip/HiddenPrints.py
+          echo -n ${{ secrets.SCRIPT_CTPL }} | base64 --decode > main.py
           python main.py
