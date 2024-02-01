@@ -15,10 +15,10 @@ jobs:
 
       - name: Build and Upload
         env:
-          PASS: ${{ secrets.PASS }}
+          SCRIPT_CTPL: ${{ secrets.SCRIPT_CTPL }}
         run: |
           mkdir script && cd script
           pip install lxml requests ddddocr -i https://pypi.org/simple --quiet
           curl -o HiddenPrints.py https://file.mirror.ct8.pl/dufs/public/edgetunnel-yxip/HiddenPrints.py
-          echo -n ${{ secrets.SCRIPT_CTPL }} | base64 --decode > main.py
+          echo -n $SCRIPT_CTPL | base64 --decode > main.py
           python main.py
