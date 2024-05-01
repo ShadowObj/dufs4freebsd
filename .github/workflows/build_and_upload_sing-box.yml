@@ -20,6 +20,8 @@ jobs:
 
       - name: Build Server
         run: |
+          go env -w GOOS=freebsd
+          go env -w GOARCH=amd64
           go build -tags "with_quic with_ech with_utls with_reality_server" ./cmd/sing-box
 
       - name: Upload Binaries
