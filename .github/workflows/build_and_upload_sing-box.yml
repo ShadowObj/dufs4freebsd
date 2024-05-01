@@ -20,16 +20,16 @@ jobs:
 
       - name: Build Server
         run: |
-          mkdir build
           go env -w GOOS=freebsd
           go env -w GOARCH=amd64
-          go build -tags "with_quic with_ech with_utls with_reality_server" ./cmd/sing-box -o ./build/sing-box
+          go env -w CGO_ENABLED=0
+          go build -tags "with_quic with_ech with_utls with_reality_server" ./cmd/sing-box
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
         with:
           name: sing-box
-          path: build/sing-box
+          path: ./sing-box
     
           # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
           retention-days: 1
