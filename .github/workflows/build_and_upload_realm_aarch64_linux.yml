@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
 
-name: build_and_upload_realm
+name: build_and_upload_realm_aarch64_linux
 
 jobs:
   build-and-release:
