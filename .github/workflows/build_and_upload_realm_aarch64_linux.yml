@@ -16,7 +16,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
-          target: "aarch64-unknown-linux-gnu"
+          target: "aarch64-unknown-linux-musl"
           override: true
 
       - name: Cargo.toml modify
@@ -30,13 +30,13 @@ jobs:
         with:
           use-cross: true
           command: build
-          args: --release --target=aarch64-unknown-linux-gnu --features 'mimalloc'
+          args: --release --target=aarch64-unknown-linux-musl --features 'mimalloc'
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
         with:
           name: realm
-          path: target/aarch64-unknown-linux-gnu/release/realm
+          path: target/aarch64-unknown-linux-musl/release/realm
     
           # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
           retention-days: 1
