@@ -21,6 +21,7 @@ jobs:
       - name: Build APK
         run: |
           rm mybv.apk
+          chmod +x ./build.sh
           ./build.sh -s com.xiaodianshi.tv.yst
 
       - name: Upload Binaries
