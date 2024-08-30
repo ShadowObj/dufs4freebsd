@@ -1,0 +1,40 @@
+on:
+  workflow_dispatch:
+
+name: build_and_upload_bilibili_1.6.6_repair
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: qidian55/bilibilitv1.6.6-repair
+
+      - name: Install Toolchain
+        run: |
+          sudo apt update
+          sudo apt install apktool signapk openjdk-8-jdk
+          sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+
+      - name: Build APK
+        run: |
+          rm mybv.apk
+          ./build.sh -s com.xiaodianshi.tv.yst
+
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: bilibili_1.6.6_repair
+          path: mybv.apk
+    
+          # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
+          retention-days: 1
+    
+          # The level of compression for Zlib to be applied to the artifact archive. The value can range from 0 to 9: - 0: No compression - 1: Best speed - 6: Default compression (same as GNU Gzip) - 9: Best compression Higher levels will result in better compression, but will take longer to complete. For large files that are not easily compressed, a value of 0 is recommended for significantly faster uploads.
+          compression-level: 0
+    
+          # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
+          overwrite: true
+          
