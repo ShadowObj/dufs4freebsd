@@ -1,0 +1,31 @@
+on:
+  workflow_dispatch:
+
+name: build_and_upload_PGPClipper
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: Mnkai/PGPClipper
+
+      - name: Install JDK
+        run: |
+          sudo apt update
+          sudo apt install openjdk-8-jdk
+          sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+
+      - name: Build with Gradle
+        run: chmod +x ./gradlew && ./gradlew assemble
+
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: PGPClipper_build
+          path: app/build/outputs/apk/release/*.apk
+          retention-days: 1
+          compression-level: 0
+          overwrite: true
