@@ -22,7 +22,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build with Gradle
-        run: chmod +x ./gradlew && JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew --no-daemon assemble
+        run: chmod +x ./gradlew && ./gradlew assemble
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
