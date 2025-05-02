@@ -12,11 +12,16 @@ jobs:
         with:
           repository: Mnkai/PGPClipper
 
-      - name: Install JDK
-        run: |
-          sudo apt update
-          sudo apt install openjdk-8-jdk
-          sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle 8.0
+        uses: gradle/gradle-build-action@v2
+        with:
+          version: 8.0
 
       - name: Build with Gradle
         run: chmod +x ./gradlew && ./gradlew assemble
