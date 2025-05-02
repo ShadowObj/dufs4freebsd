@@ -10,7 +10,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          repository: Mnkai/PGPClipper
+          repository: ShadowObj/PGPClipper
           ref: '0.22.1'
 
       - name: Setup JDK 8
@@ -24,7 +24,6 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          sed -i 's/jcenter()/mavenCentral()/g' build.gradle
           chmod +x ./gradlew && ./gradlew assemble
 
       - name: Upload Binaries
