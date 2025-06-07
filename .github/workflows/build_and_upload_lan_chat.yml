@@ -14,18 +14,21 @@ jobs:
 
       - name: Install Toolchain
         run: |
+          sudo apt update
+          sudo apt install -y jq
           npm install
           npm install -g pkg
 
       - name: Build EXE
         run: |
+          jq '. + { "bin": "server.js" }' package.json > package.json.tmp && mv package.json.tmp package.json
           pkg . --target node18-win-x64 --compress GZip --output dist/lan_chat.exe
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
         with:
           name: lan_chat_standalone
-          path: dist/lan_chat.apk
+          path: dist/lan_chat.exe
     
           # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
           retention-days: 1
