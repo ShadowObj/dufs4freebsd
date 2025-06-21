@@ -28,7 +28,7 @@ jobs:
                 "public/**/*",
                 "node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node"
               ],
-              "targets": [ "node24-win-x64" ]
+              "targets": [ "node18-win-x64" ]
             }' package.json > package.json.tmp && mv package.json.tmp package.json
           pkg . --compress GZip --output dist/lan_chat.exe
 
