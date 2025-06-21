@@ -21,8 +21,16 @@ jobs:
 
       - name: Build EXE
         run: |
-          jq '. + { "bin": "server.js" }' package.json > package.json.tmp && mv package.json.tmp package.json
-          pkg . --target node18-win-x64 --compress GZip --output dist/lan_chat.exe
+          jq '
+            .bin = "server.js"
+            |.pkg = {
+            "assets": [
+                "public/**/*",
+                "node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node"
+              ],
+              "targets": [ "node24-win-x64" ]
+            }' package.json > package.json.tmp && mv package.json.tmp package.json
+          pkg . --compress GZip --output dist/lan_chat.exe
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
