@@ -28,14 +28,15 @@ jobs:
       - name: Modify package.json for Packaging
         run: |
           $packageJson = Get-Content -Path package.json -Raw | ConvertFrom-Json
-          $packageJson.bin = "server.js"
-          $packageJson.pkg = @{
-              assets = @(
-                  "public/**/*",
-                  "node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node"
-              )
-              targets = @("node18-win-x64")
+          $packageJson | Add-Member -NotePropertyName "bin" -NotePropertyValue "server.js" -Force
+          $pkgConfig = [ordered]@{
+            assets = @(
+              "public/**/*",
+              "node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node"
+            )
+            targets = @("node18-win-x64")
           }
+          $packageJson | Add-Member -NotePropertyName "pkg" -NotePropertyValue $pkgConfig -Force
           $packageJson | ConvertTo-Json -Depth 10 | Set-Content -Path package.json
 
       - name: Build Standalone EXE
