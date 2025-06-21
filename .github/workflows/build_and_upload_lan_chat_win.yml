@@ -1,0 +1,57 @@
+on:
+  workflow_dispatch:
+
+name: build_and_upload_lan_chat_win
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: 17352034242/lan-chat
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+
+      - name: Install Windows Build Tools
+        run: |
+          npm install --global --production windows-build-tools
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Install PKG Globally
+        run: |
+          npm install -g pkg
+
+      - name: Modify package.json for Packaging
+        run: |
+          $packageJson = Get-Content -Path package.json -Raw | ConvertFrom-Json
+          $packageJson.bin = "server.js"
+          $packageJson.pkg = @{
+              assets = @(
+                  "public/**/*",
+                  "node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node"
+              )
+              targets = @("node18-win-x64")
+          }
+          $packageJson | ConvertTo-Json -Depth 10 | Set-Content -Path package.json
+
+      - name: Build Standalone EXE
+        run: |
+          pkg . --compress GZip --output dist/lan_chat.exe
+
+      - name: Upload Standalone Binary
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: lan_chat_standalone
+          path: dist/lan_chat.exe
+          retention-days: 1
+          compression-level: 0
+          overwrite: true
