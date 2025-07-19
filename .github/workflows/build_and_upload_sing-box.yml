@@ -33,7 +33,9 @@ jobs:
         uses: actions/upload-artifact@v4.3.0
         with:
           name: sing-box
-          path: ./sing-box
+          path: |
+            ./sing-box-linux-amd64
+            ./sing-box-windows-amd64.exe
     
           # Duration after which artifact will expire in days. 0 means using default retention. Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
           retention-days: 1
