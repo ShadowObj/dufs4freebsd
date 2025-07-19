@@ -23,7 +23,11 @@ jobs:
           go env -w GOOS=linux
           go env -w GOARCH=amd64
           go env -w CGO_ENABLED=0
-          go build -tags "with_v2ray_api" ./cmd/sing-box
+          go build -o ./sing-box-linux-amd64 -tags "with_v2ray_api" ./cmd/sing-box
+          go env -w GOOS=windows
+          go env -w GOARCH=amd64
+          go env -w CGO_ENABLED=0
+          go build -o ./sing-box-windows-amd64.exe -tags "with_v2ray_api" ./cmd/sing-box
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
