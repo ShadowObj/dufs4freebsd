@@ -20,10 +20,10 @@ jobs:
 
       - name: Build Server
         run: |
-          go env -w GOOS=freebsd
+          go env -w GOOS=linux
           go env -w GOARCH=amd64
           go env -w CGO_ENABLED=0
-          go build -tags "with_quic with_ech with_utls with_reality_server" ./cmd/sing-box
+          go build -tags "with_v2ray_api" ./cmd/sing-box
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v4.3.0
